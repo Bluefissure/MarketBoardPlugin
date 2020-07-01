@@ -10,6 +10,7 @@ namespace MarketBoardPlugin.GUI
   using System.Linq;
   using System.Numerics;
   using System.Reflection;
+  using System.Text.RegularExpressions;
   using System.Threading;
   using System.Threading.Tasks;
 
@@ -72,6 +73,7 @@ namespace MarketBoardPlugin.GUI
 
     private bool hasHistoryHQColumnWidthBeenSet = false;
 
+    private Dictionary<uint, string> cnWorldDC = new Dictionary<uint, string>();
     /// <summary>
     /// Initializes a new instance of the <see cref="MarketBoardWindow"/> class.
     /// </summary>
@@ -93,10 +95,35 @@ namespace MarketBoardPlugin.GUI
 
       pluginInterface.UiBuilder.RebuildFonts();
 
-      #if DEBUG
+      // mannually add these cuz dc is set to 0 in game dat
+      this.cnWorldDC.Add(1167, "LuXingNiao");
+      this.cnWorldDC.Add(1081, "LuXingNiao");
+      this.cnWorldDC.Add(1042, "LuXingNiao");
+      this.cnWorldDC.Add(1044, "LuXingNiao");
+      this.cnWorldDC.Add(1060, "LuXingNiao");
+      this.cnWorldDC.Add(1173, "LuXingNiao");
+      this.cnWorldDC.Add(1174, "LuXingNiao");
+      this.cnWorldDC.Add(1175, "LuXingNiao");
+      this.cnWorldDC.Add(1172, "MoGuLi");
+      this.cnWorldDC.Add(1076, "MoGuLi");
+      this.cnWorldDC.Add(1171, "MoGuLi");
+      this.cnWorldDC.Add(1170, "MoGuLi");
+      this.cnWorldDC.Add(1113, "MoGuLi");
+      this.cnWorldDC.Add(1121, "MoGuLi");
+      this.cnWorldDC.Add(1166, "MoGuLi");
+      this.cnWorldDC.Add(1176, "MoGuLi");
+      this.cnWorldDC.Add(1043, "MaoXiaoPang");
+      this.cnWorldDC.Add(1169, "MaoXiaoPang");
+      this.cnWorldDC.Add(1106, "MaoXiaoPang");
+      this.cnWorldDC.Add(1045, "MaoXiaoPang");
+      this.cnWorldDC.Add(1177, "MaoXiaoPang");
+      this.cnWorldDC.Add(1178, "MaoXiaoPang");
+      this.cnWorldDC.Add(1179, "MaoXiaoPang");
+
+#if DEBUG
       this.worldList.Add(("Chaos", "Chaos"));
       this.worldList.Add(("Moogle", "Moogle"));
-      #endif
+#endif
     }
 
     /// <summary>
@@ -518,8 +545,39 @@ namespace MarketBoardPlugin.GUI
 
     private void HandleBuildFonts()
     {
-      var fontPath = Path.Combine(Path.GetDirectoryName(Assembly.GetAssembly(typeof(DalamudPluginInterface)).Location) ?? string.Empty, "UIRes", "NotoSansCJKjp-Medium.otf");
-      this.fontPtr = ImGui.GetIO().Fonts.AddFontFromFileTTF(fontPath, 24.0f);
+      var fontPath = Path.Combine(Path.GetDirectoryName(Assembly.GetAssembly(typeof(DalamudPluginInterface)).Location) ?? string.Empty, "UIRes", "NotoSansCJKsc-Medium.otf");
+      this.fontPtr = ImGui.GetIO().Fonts.AddFontFromFileTTF(fontPath, 24.0f, null, ImGui.GetIO().Fonts.GetGlyphRangesChineseFull());
+    }
+
+    private string LocalizeWorldName(string displayName)
+    {
+      displayName = Regex.Replace(displayName, "HongYuHai", "红玉海", RegexOptions.IgnoreCase);
+      displayName = Regex.Replace(displayName, "ShenYiZhiDi", "神意之地", RegexOptions.IgnoreCase);
+      displayName = Regex.Replace(displayName, "LaNuoXiYa", "拉诺西亚", RegexOptions.IgnoreCase);
+      displayName = Regex.Replace(displayName, "HuanYingQunDao", "幻影群岛", RegexOptions.IgnoreCase);
+      displayName = Regex.Replace(displayName, "MengYaChi", "萌芽池", RegexOptions.IgnoreCase);
+      displayName = Regex.Replace(displayName, "YuZhouHeYin", "宇宙和音", RegexOptions.IgnoreCase);
+      displayName = Regex.Replace(displayName, "WoXianXiRan", "沃仙曦染", RegexOptions.IgnoreCase);
+      displayName = Regex.Replace(displayName, "ChenXiWangZuo", "晨曦王座", RegexOptions.IgnoreCase);
+      displayName = Regex.Replace(displayName, "BaiYinXiang", "白银乡", RegexOptions.IgnoreCase);
+      displayName = Regex.Replace(displayName, "BaiJinHuanXiang", "白金幻象", RegexOptions.IgnoreCase);
+      displayName = Regex.Replace(displayName, "ShenQuanHen", "神拳痕", RegexOptions.IgnoreCase);
+      displayName = Regex.Replace(displayName, "ChaoFengTing", "潮风亭", RegexOptions.IgnoreCase);
+      displayName = Regex.Replace(displayName, "LvRenZhanQiao", "旅人栈桥", RegexOptions.IgnoreCase);
+      displayName = Regex.Replace(displayName, "FuXiaoZhiJian", "拂晓之间", RegexOptions.IgnoreCase);
+      displayName = Regex.Replace(displayName, "Longchaoshendian", "龙巢神殿", RegexOptions.IgnoreCase);
+      displayName = Regex.Replace(displayName, "MengYuBaoJing", "梦羽宝境", RegexOptions.IgnoreCase);
+      displayName = Regex.Replace(displayName, "ZiShuiZhanQiao", "紫水栈桥", RegexOptions.IgnoreCase);
+      displayName = Regex.Replace(displayName, "YanXia", "延夏", RegexOptions.IgnoreCase);
+      displayName = Regex.Replace(displayName, "JingYuZhuangYuan", "静语庄园", RegexOptions.IgnoreCase);
+      displayName = Regex.Replace(displayName, "MoDuNa", "摩杜纳", RegexOptions.IgnoreCase);
+      displayName = Regex.Replace(displayName, "HaiMaoChaWu", "海猫茶屋", RegexOptions.IgnoreCase);
+      displayName = Regex.Replace(displayName, "RouFengHaiWan", "柔风海湾", RegexOptions.IgnoreCase);
+      displayName = Regex.Replace(displayName, "HuPoYuan", "琥珀原", RegexOptions.IgnoreCase);
+      displayName = Regex.Replace(displayName, "LuXingNiao", "陆行鸟", RegexOptions.IgnoreCase);
+      displayName = Regex.Replace(displayName, "MoGuLi", "莫古力", RegexOptions.IgnoreCase);
+      displayName = Regex.Replace(displayName, "MaoXiaoPang", "猫小胖", RegexOptions.IgnoreCase);
+      return displayName;
     }
 
     private void HandleFrameworkUpdateEvent(Framework framework)
@@ -537,12 +595,25 @@ namespace MarketBoardPlugin.GUI
 
         var currentDc = localPlayer.CurrentWorld.GameData.DataCenter;
         var dcWorlds = this.pluginInterface.Data.GetExcelSheet<World>().GetRows()
-          .Where(w => w.DataCenter.Row == currentDc.Row)
+          .Where(w =>
+          {
+            if (this.cnWorldDC.ContainsKey(localPlayer.CurrentWorld.GameData.RowId))
+            {
+              if (!this.cnWorldDC.ContainsKey(w.RowId))
+              {
+                return false;
+              }
+
+              return this.cnWorldDC[localPlayer.CurrentWorld.GameData.RowId] == this.cnWorldDC[w.RowId];
+            }
+
+            return w.DataCenter.Row == currentDc.Row;
+          })
           .OrderBy(w => w.Name)
           .Select(w =>
           {
             var displayName = w.Name;
-
+            displayName = this.LocalizeWorldName(displayName);
             if (localPlayer.CurrentWorld.Id == w.RowId)
             {
               displayName += $" {SeIconChar.Hyadelyn.ToChar()}";
@@ -552,7 +623,13 @@ namespace MarketBoardPlugin.GUI
           });
 
         this.worldList.Clear();
-        this.worldList.Add((currentDc.Value?.Name, $"Cross-World {SeIconChar.CrossWorld.ToChar()}"));
+        var dcName = currentDc.Value?.Name;
+        if (this.cnWorldDC.ContainsKey(localPlayer.CurrentWorld.GameData.RowId))
+        {
+          dcName = this.LocalizeWorldName(this.cnWorldDC[localPlayer.CurrentWorld.GameData.RowId]);
+        }
+
+        this.worldList.Add((dcName, $"跨服 {SeIconChar.CrossWorld.ToChar()}"));
         this.worldList.AddRange(dcWorlds);
 
         this.selectedWorld = this.worldList.FindIndex(w => w.Item1 == localPlayer.CurrentWorld.GameData.Name);
