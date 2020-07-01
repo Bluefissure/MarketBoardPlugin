@@ -342,7 +342,7 @@ namespace MarketBoardPlugin.GUI
                 ImGui.NextColumn();
                 ImGui.Text($"{listing.Total:##,###}");
                 ImGui.NextColumn();
-                ImGui.Text($"{listing.RetainerName}{(this.selectedWorld == 0 ? $" {SeIconChar.CrossWorld.ToChar()} {listing.WorldName}" : string.Empty)}");
+                ImGui.Text($"{listing.RetainerName}{(this.selectedWorld == 0 ? $" {SeIconChar.CrossWorld.ToChar()} {this.LocalizeWorldName(listing.WorldName)}" : string.Empty)}");
                 ImGui.NextColumn();
                 ImGui.Separator();
               }
@@ -404,7 +404,7 @@ namespace MarketBoardPlugin.GUI
                 ImGui.NextColumn();
                 ImGui.Text($"{DateTimeOffset.FromUnixTimeSeconds(history.Timestamp).LocalDateTime:G}");
                 ImGui.NextColumn();
-                ImGui.Text($"{history.BuyerName}{(this.selectedWorld == 0 ? $" {SeIconChar.CrossWorld.ToChar()} {history.WorldName}" : string.Empty)}");
+                ImGui.Text($"{history.BuyerName}{(this.selectedWorld == 0 ? $" {SeIconChar.CrossWorld.ToChar()} {this.LocalizeWorldName(history.WorldName)}" : string.Empty)}");
                 ImGui.NextColumn();
                 ImGui.Separator();
               }
@@ -551,6 +551,11 @@ namespace MarketBoardPlugin.GUI
 
     private string LocalizeWorldName(string displayName)
     {
+      if (displayName == null)
+      {
+        return null;
+      }
+
       displayName = Regex.Replace(displayName, "HongYuHai", "红玉海", RegexOptions.IgnoreCase);
       displayName = Regex.Replace(displayName, "ShenYiZhiDi", "神意之地", RegexOptions.IgnoreCase);
       displayName = Regex.Replace(displayName, "LaNuoXiYa", "拉诺西亚", RegexOptions.IgnoreCase);
